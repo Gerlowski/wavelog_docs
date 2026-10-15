@@ -2,7 +2,7 @@
 
 ## Import fails on PHP 8.5
 
-At least on Ubuntu 26.04 running PHP 8.5 (i.e. 8.5.4 at the time of debugging) importing an LoTW certificate fails with the message:
+At least on Ubuntu 26.04 running PHP 8.5 (i.e. PHP 8.5.4 / OpenSSL 3.5.5 at the time of debugging) importing an LoTW certificate fails with the message:
 
 ```text
 Generic error extracting the private key from certificate in file N3RD.p12. For further information please visit the LoTW troubleshooting page in the Wavelog Wiki.
@@ -28,7 +28,7 @@ sudo mkdir -p /etc/ssl/openssl.conf.d
 sudo mkdir -p /var/lib/crypto-config/profiles/current/openssl.conf.d
 ```
 
-After this the import should just work fine again. This might apply to configurations or operating systems as well.
+After this the import should just work fine again. This might apply to configurations or operating systems as well. This might require a restart of the Apache web server before this solution works.
 
 ## Certicates Exported from tqsl on MacOS
 
