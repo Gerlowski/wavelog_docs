@@ -8,6 +8,8 @@ At least on Ubuntu 26.04 running PHP 8.5 (i.e. PHP 8.5.4 / OpenSSL 3.5.5 at the 
 Generic error extracting the private key from certificate in file N3RD.p12. For further information please visit the LoTW troubleshooting page in the Wavelog Wiki.
 ```
 
+<img width="1409" height="348" alt="Untitled" src="https://github.com/user-attachments/assets/a61ab872-4a21-44d9-ace3-6ef3e9a4c504" />
+
 The logfile contains another meaningless error message:
 
 ```text
