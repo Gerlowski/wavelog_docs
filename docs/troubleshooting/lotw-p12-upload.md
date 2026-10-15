@@ -4,28 +4,28 @@
 
 At least on Ubuntu 26.04 running PHP 8.5 (i.e. 8.5.4 at the time of debugging) importing an LoTW certificate fails with the message:
 
-```
+```text
 Generic error extracting the private key from certificate in file N3RD.p12. For further information please visit the LoTW troubleshooting page in the Wavelog Wiki.
 ```
 
 The logfile contains another meaningless error message:
 
-```
+```text
 ERROR - 2026-10-15 21:21:14 --> OpenSSL reading LoTW private key from file N3RD.p12 resulted in error: error:FFFFFFFF80000002:system library::No such file or directory
 ```
 
 Tracing this error down to the root cause using strace and some logging lead to the openssl binary looking for two config directories being not existing on a bare Ubuntu 26.04 system:
 
-```
+```text
 newfstatat(AT_FDCWD, "/var/lib/crypto-config/profiles/current/openssl.conf.d", 0x7ffebc1286e0, 0) = -1 ENOENT (No such file or directory)
 newfstatat(AT_FDCWD, "/etc/ssl/openssl.conf.d", 0x7ffebc1286e0, 0) = -1 ENOENT (No such file or directory)
 ```
 
 As both fail not finding that file or directory the openssl module simply bails out. Luckily solving this is rather simple by just creating those two directories (without any further content):
 
-```
-$ sudo mkdir -p /etc/ssl/openssl.conf.d
-$ sudo mkdir -p /var/lib/crypto-config/profiles/current/openssl.conf.d
+```bash
+sudo mkdir -p /etc/ssl/openssl.conf.d
+sudo mkdir -p /var/lib/crypto-config/profiles/current/openssl.conf.d
 ```
 
 After this the import should just work fine again. This might apply to configurations or operating systems as well.
