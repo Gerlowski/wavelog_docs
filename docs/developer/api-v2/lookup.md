@@ -42,6 +42,7 @@ working, which a path segment cannot: most webservers reject encoded slashes
 | `mode` | — | Mode for the per-mode worked/confirmed flags (e.g. `FT8`) |
 | `callbook` | — | `true` to include external callbook data (an extra HTTP lookup) |
 | `station_ids` | all owned | Comma-separated station-location ids to scope the worked/confirmed status to; ids not owned are ignored |
+| `date` | today | `YYYY-MM-DD`: the date the DXCC is resolved for, returned in `meta.date`. Use the QSO date for a past QSO, so a call with a DXCC exception limited to a period (e.g. a DXpedition) still resolves after the period has ended. An invalid date returns `400 validation_error`. <span class="wl-since">3.2.5</span> |
 
 ## Detail levels
 
@@ -88,7 +89,7 @@ curl "https://<WAVELOG_URL>/index.php/api/v2/lookup?callsign=DL1ABC&detail=full&
     "suffix_slash": "",
     "dxcc_ituz": 28
   },
-  "meta": { "detail": "full" }
+  "meta": { "detail": "full", "date": "2026-10-21" }
 }
 ```
 
@@ -132,7 +133,7 @@ curl "https://<WAVELOG_URL>/index.php/api/v2/lookup?callsign=DL1ABC&detail=basic
     "lotw_member": false,
     "suffix_slash": ""
   },
-  "meta": { "detail": "basic" }
+  "meta": { "detail": "basic", "date": "2026-10-21" }
 }
 ```
 
