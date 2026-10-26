@@ -49,6 +49,8 @@ Clicking the received arrow of a confirmed QSO in the logbook downloads the eQSL
 
 Enable the `eqsl_sync` job in the Cronmanager (`Admin -> Cron Jobs`). It handles upload and download in one run and defaults to every 6 hours.
 
+If the sync regularly runs into timeouts, shift the job a few minutes earlier or later in the Cronmanager. All Wavelog instances share the same default schedule, so eQSL.cc tends to be busiest exactly at those times.
+
 ## Debugging
 
 If uploads fail, raise the log level in `application/config/config.php` (`log_threshold`) and check the files in `application/logs`.

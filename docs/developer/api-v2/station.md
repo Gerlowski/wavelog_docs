@@ -65,7 +65,9 @@ locations.
   "sig": "",
   "sig_info": "",
   "power": 100,
-  "active": true
+  "active": true,
+  "clublog_upload": "on",
+  "eqsl_qth_nickname": null
 }
 ```
 
@@ -123,10 +125,15 @@ curl -X POST https://<WAVELOG_URL>/index.php/api/v2/station \
 | `sig` | Special interest group |
 | `sig_info` | Special interest group info |
 | `power` | Default TX power in watts |
+| `clublog_upload` | <span class="wl-since">3.2.4</span> ClubLog upload mode: `live` (realtime + batch), `on` (batch only, default on create), `disabled` (nothing is uploaded) |
+| `eqsl_qth_nickname` | <span class="wl-since">3.2.4</span> eQSL QTH nickname of the location — set it to enable eQSL uploads, send `""` to turn them off |
 
 !!! note
     External-service credentials (QRZ, HRDLog, ClubLog, OQRS, webADIF, eQSL) are
-    **not** exposed through the API and keep their defaults on create.
+    **not** exposed through the API and keep their defaults on create. The only
+    exception is the upload switches of the two services whose credentials live
+    on your user account rather than the station: `clublog_upload` and
+    `eqsl_qth_nickname`.
 
 !!! warning "Clubstation tokens need officer level to write"
     Station locations are shared club infrastructure, and deleting one removes
@@ -170,6 +177,21 @@ The updated station object is returned in `data`.
     response, so a `GET` result can be sent straight back through `PATCH`
     without silently reassigning your active location. A body containing
     nothing but `set_active` is valid.
+
+!!! note "Third-party upload switches"
+    <span class="wl-since">3.2.4</span> `clublog_upload` and
+    `eqsl_qth_nickname` manage the external upload behaviour of a location:
+
+    ```bash
+    curl -X PATCH https://<WAVELOG_URL>/index.php/api/v2/station/42 \
+         -H "Authorization: Bearer wl2_your_token_here" \
+         -H "Content-Type: application/json" \
+         -d '{ "clublog_upload": "live", "eqsl_qth_nickname": "Home" }'
+    ```
+
+    Both are returned by every `GET`, so a fetched station can be modified and
+    sent straight back. `clublog_upload` values other than `live`, `on` or
+    `disabled` are rejected with `400 validation_error`.
 
 !!! note "Required fields cannot be blanked out"
     The fields required on create stay required for the lifetime of the
